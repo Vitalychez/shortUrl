@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use yii\web\Controller;
-use yii\web\Response;
+use app\services\ServiceApiTrait;
 use app\models\Url;
 
 /**
@@ -13,12 +13,7 @@ use app\models\Url;
  */
 class ApiController extends Controller
 {
-    /**
-     * Код ответа сервера.
-     *
-     * @var integer
-     */
-    protected $statusCode = 200;
+    use ServiceApiTrait;
 
     /**
      * Экшен для приема данных апи.
@@ -31,30 +26,12 @@ class ApiController extends Controller
             $url = new Url;
             $url->setAttributes(\Yii::$app->request->post());
             if(! $url->save()) {
-                $this->statusCode = 405;
-                return $this->renderJson(['error' => 'Укажите ссылку']);
+                return $this->addError('Укажите ссылку');
             }
 
-            return $this->renderJson(['data' => ['url' => $url->short_id]]);
+            return $this->addData(['url' => $url->short_id]);
         }
 
-        $this->statusCode = 405;
-        return $this->renderJson(['error' => 'Method Not Allowed']);
-    }
-	
-	/**
-     * Метод формирует ответ пользователю в виде JSON данных.
-     *
-     * @param array $params данные для формирования тела.
-     *
-     * @return Response
-     */
-    public function renderJson($params = null)
-    {
-		$response          = \Yii::$app->response;
-        $response->format  = Response::FORMAT_JSON;
-        $response->statusCode = $this->statusCode;
-        $response->content = json_encode($params);
-        return $response;
+        return $this->addError('Method Not Allowed', 405);
     }
 }
