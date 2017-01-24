@@ -1,0 +1,49 @@
+{
+    "name": "ShortUrl",
+    "description": "Project ShortUrl",
+    "keywords": ["yii2", "framework", "short", "url"],
+    "homepage": "https://github.com/Vitalychez/shortUrl",
+    "type": "project",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/yiisoft/yii2"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "~2.0.5",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "~2.0.0",
+        "yiisoft/yii2-gii": "~2.0.0",
+        "yiisoft/yii2-faker": "~2.0.0",
+
+        "codeception/base": "^2.2.3",
+        "codeception/verify": "~0.3.1",
+        "codeception/specify": "~0.4.3"
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "yii\\composer\\Installer::postCreateProject"
+        ]
+    },
+    "extra": {
+        "yii\\composer\\Installer::postCreateProject": {
+            "setPermission": [
+                {
+                    "protected/runtime": "0777",
+                    "www/assets": "0777",
+                }
+            ]
+        },
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
